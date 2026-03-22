@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excelvic Hairplace — Premium Salon, Lagos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#E91E8C;--pink-light:#FF6BB5;--pink-pale:#FFF0F7;--pink-mid:#FFD6EC;
+  --dark:#1A1A2E;--dark-2:#2D2D4A;--charcoal:#4A4A6A;
+  --white:#FFFFFF;--off-white:#FAFAFA;--light:#F5F5FA;
+  --muted:#8888AA;--line:#EEEEEE;--line-pink:#F5C6E0;
+  --gold:#D4AF37;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--pink)}
+
+/* PROGRESS BAR */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--pink),var(--pink-light));z-index:999;width:0%;transition:width .1s linear}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 5%;background:rgba(255,255,255,0);transition:background .4s,padding .3s,box-shadow .4s}
+nav.scrolled{background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);box-shadow:0 2px 20px rgba(233,30,140,.08);padding:14px 5%}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--pink),var(--pink-light));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:white}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);letter-spacing:.5px}
+.nav-logo-text span{color:var(--pink)}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center}
+.nav-links a{font-size:.72rem;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;color:var(--charcoal);font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--pink)}
+.nav-book{background:linear-gradient(135deg,var(--pink),var(--pink-light))!important;color:white!important;padding:10px 24px;border-radius:50px;font-weight:600!important;box-shadow:0 4px 16px rgba(233,30,140,.3)}
+.nav-book:hover{box-shadow:0 6px 24px rgba(233,30,140,.45)!important;transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:var(--dark);border-radius:2px;transition:transform .3s ease,opacity .3s ease,width .3s ease}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;width:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;inset:0;background:var(--white);z-index:300;flex-direction:column;align-items:center;justify-content:center;gap:32px;opacity:0;transform:translateY(-10px);transition:opacity .35s ease,transform .35s ease}
+.mobile-menu.open{display:flex;animation:menuIn .35s forwards}
+@keyframes menuIn{to{opacity:1;transform:translateY(0)}}
+
+.mobile-menu a{font-size:1rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;color:var(--dark);font-weight:500}
+.mobile-close{position:absolute;top:22px;right:5%;font-size:1.4rem;cursor:pointer;background:none;border:none;color:var(--charcoal)}
+
+/* HERO SLIDESHOW */
+.hero{height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:var(--dark)}
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease}
+.slide.active{opacity:1}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(26,26,46,.92) 0%,rgba(26,26,46,.65) 50%,rgba(233,30,140,.18) 100%)}
+.slide-1{background:#111 url('https://i.pinimg.com/1200x/a9/f4/52/a9f452657702b1a6298e74274f3487f7.jpg') top/cover no-repeat}
+.slide-2{background:#111 url('https://i.pinimg.com/736x/62/1e/f9/621ef9714535893301048c2c3d95f001.jpg') top/cover no-repeat}
+.slide-3{background:#111 url('https://i.pinimg.com/736x/be/c9/61/bec96148f1d39e0f0b5755d21cbf4fbc.jpg') center 20%/cover no-repeat}
+.slide-4{background:#111 url('https://i.pinimg.com/736x/57/84/89/578489066d82e09069c85596e29cbfed.jpg') center 20%/cover no-repeat}
+.slide-dots{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:background .3s,transform .3s}
+.dot.active{background:var(--pink);transform:scale(1.3)}
+.hero-content{position:relative;z-index:20;padding:0 5%;max-width:680px;margin-top:60px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(233,30,140,.15);border:1px solid rgba(233,30,140,.3);color:var(--pink-light);padding:7px 16px;border-radius:50px;font-size:.63rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px}
+.hero-badge svg{width:12px;height:12px;fill:var(--pink-light)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:700;color:white;line-height:1.1;margin-bottom:12px}
+.hero h1 em{font-style:italic;color:var(--pink-light)}
+.hero p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.7;max-width:480px;margin-bottom:24px;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.btn-pink{background:linear-gradient(135deg,var(--pink),var(--pink-light));color:white;padding:16px 36px;border-radius:50px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-weight:600;box-shadow:0 8px 24px rgba(233,30,140,.4);transition:all .3s;display:inline-block}
+.btn-pink:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(233,30,140,.5)}
+.btn-white-outline{border:1px solid rgba(255,255,255,.4);color:white;padding:16px 36px;border-radius:50px;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s;display:inline-block}
+.btn-white-outline:hover{border-color:var(--pink-light);color:var(--pink-light)}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)}
+.h-stat-num{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--pink-light)}
+.h-stat-label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:3px}
+
+
+/* STATS STRIP */
+.stats-strip{background:linear-gradient(135deg,var(--pink),var(--pink-light));padding:40px 5%;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.strip-stat{text-align:center;color:white}
+.strip-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700}
+.strip-label{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;opacity:.85;margin-top:4px}
+
+/* SECTION BASE */
+section{padding:100px 5%}
+.s-badge{display:inline-flex;align-items:center;gap:8px;color:var(--pink);font-size:.65rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;font-weight:600}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;margin-bottom:14px;color:var(--dark)}
+.s-title em{font-style:italic;color:var(--pink)}
+.s-sub{font-size:.9rem;color:var(--muted);font-weight:300;line-height:1.85;max-width:520px}
+.s-line{width:48px;height:3px;background:linear-gradient(90deg,var(--pink),var(--pink-light));border-radius:2px;margin:18px 0}
+
+/* ABOUT */
+.about-section{background:var(--light)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-imgs{position:relative;height:520px}
+.about-img-main{position:absolute;left:0;top:0;width:75%;height:85%;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(233,30,140,.15)}
+.about-img-main img{width:100%;height:100%;object-fit:cover}
+.about-img-sub{position:absolute;right:0;bottom:0;width:55%;height:55%;border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.15);border:4px solid white}
+.about-img-sub img{width:100%;height:100%;object-fit:cover}
+.about-float-badge{position:absolute;left:50%;bottom:10%;transform:translateX(-50%);background:white;padding:16px 24px;border-radius:14px;box-shadow:0 8px 32px rgba(233,30,140,.15);display:flex;align-items:center;gap:12px;white-space:nowrap;z-index:2}
+.about-float-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--pink),var(--pink-light));border-radius:10px;display:flex;align-items:center;justify-content:center}
+.about-float-icon svg{width:20px;height:20px;fill:white}
+.about-float-text{font-size:.75rem;color:var(--muted);}
+.about-float-num{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark)}
+.about-text p{font-size:.9rem;color:var(--charcoal);line-height:1.9;font-weight:300;margin-bottom:20px}
+.about-perks{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.perk{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--charcoal);font-weight:400}
+.perk-dot{width:8px;height:8px;background:linear-gradient(135deg,var(--pink),var(--pink-light));border-radius:50%;flex-shrink:0}
+
+/* SERVICES */
+.services-section{background:var(--white)}
+.services-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;flex-wrap:wrap;gap:24px}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.svc-card{background:var(--white);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s}
+.svc-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(233,30,140,.12);border-color:var(--line-pink)}
+.svc-card-img{height:220px;overflow:hidden;position:relative;background:var(--pink-pale)}
+.svc-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.svc-card:hover .svc-card-img img{transform:scale(1.07)}
+.svc-card-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(233,30,140,.2),transparent)}
+.svc-body{padding:28px}
+.svc-icon{width:44px;height:44px;background:var(--pink-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.svc-icon svg{width:22px;height:22px;stroke:var(--pink);fill:none;stroke-width:2}
+.svc-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:600;color:var(--dark);margin-bottom:10px}
+.svc-desc{font-size:.78rem;color:var(--muted);line-height:1.75;font-weight:300;margin-bottom:20px}
+.svc-link{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--pink);text-decoration:none;font-weight:600;transition:gap .2s}
+.svc-card:hover .svc-link{gap:10px}
+
+/* HOURS */
+.hours-section{background:var(--dark);color:white;padding:80px 5%}
+.hours-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.hours-text h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:white;margin-bottom:16px;line-height:1.2}
+.hours-text h2 em{font-style:italic;color:var(--pink-light)}
+.hours-text p{font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.9;font-weight:300;margin-bottom:32px}
+.hours-table{width:100%;border-collapse:collapse}
+.hours-table tr{border-bottom:1px solid rgba(255,255,255,.08)}
+.hours-table td{padding:14px 0;font-size:.85rem;color:rgba(255,255,255,.7);font-weight:300}
+.hours-table td:last-child{text-align:right;color:var(--pink-light);font-weight:500}
+.hours-table tr:last-child td{border-bottom:none}
+.hours-cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
+
+/* GALLERY */
+.gallery-section{background:var(--pink-pale)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:240px 240px;gap:8px;margin-top:56px}
+.g-item{overflow:hidden;border-radius:12px;position:relative}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.g-item:hover img{transform:scale(1.07)}
+.g-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+.g-item:nth-child(4){grid-column:span 2}
+.g-overlay{position:absolute;inset:0;background:rgba(233,30,140,0);transition:background .4s;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.g-item:hover .g-overlay{background:rgba(233,30,140,.25)}
+.g-plus{color:white;font-size:2rem;opacity:0;transition:opacity .3s}
+.g-item:hover .g-plus{opacity:1}
+
+/* BOOKING */
+.booking-section{background:var(--white)}
+.booking-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.booking-form-wrap{background:var(--light);padding:48px;border-radius:24px;border:1px solid var(--line)}
+.form-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;color:var(--dark);margin-bottom:32px}
+.f-group{margin-bottom:20px}
+.f-label{display:block;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-weight:500}
+.f-input{width:100%;border:1.5px solid var(--line);background:white;padding:14px 16px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--dark);outline:none;transition:border .2s;-webkit-appearance:none;appearance:none}
+.f-input:focus{border-color:var(--pink)}
+.f-select{width:100%;border:1.5px solid var(--line);background:white;padding:14px 16px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--dark);outline:none;-webkit-appearance:none;appearance:none;cursor:pointer}
+.f-select:focus{border-color:var(--pink)}
+.f-textarea{width:100%;border:1.5px solid var(--line);background:white;padding:14px 16px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;color:var(--dark);outline:none;resize:vertical;min-height:88px;transition:border .2s}
+.f-textarea:focus{border-color:var(--pink)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-submit{width:100%;background:linear-gradient(135deg,var(--pink),var(--pink-light));color:white;border:none;padding:17px;border-radius:50px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:600;box-shadow:0 8px 24px rgba(233,30,140,.3);transition:all .3s;margin-top:8px}
+.f-submit:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(233,30,140,.45)}
+.booking-info{}
+.booking-info h3{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:16px}
+.booking-info h3 em{color:var(--pink);font-style:italic}
+.booking-info p{font-size:.9rem;color:var(--muted);line-height:1.9;font-weight:300;margin-bottom:32px}
+.info-cards{display:flex;flex-direction:column;gap:16px}
+.info-card{display:flex;gap:16px;align-items:flex-start;padding:20px;background:var(--light);border-radius:14px;border:1px solid var(--line)}
+.info-card-icon{width:40px;height:40px;background:var(--pink-pale);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-card-icon svg{width:18px;height:18px;stroke:var(--pink);fill:none;stroke-width:2}
+.info-card-label{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--pink);margin-bottom:4px;font-weight:600}
+.info-card-val{font-size:.85rem;color:var(--charcoal);font-weight:400;line-height:1.6}
+
+/* TRAINING */
+.training-section{background:var(--light)}
+.training-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:56px}
+.t-card{background:white;border-radius:20px;padding:40px;border:1px solid var(--line);transition:transform .3s,box-shadow .3s,border-color .3s}
+.t-card:hover{transform:translateY(-6px);box-shadow:0 20px 56px rgba(233,30,140,.1);border-color:var(--line-pink)}
+.t-card.featured{background:linear-gradient(135deg,var(--dark),var(--dark-2));border-color:transparent}
+.t-card.featured .t-name{color:white}
+.t-card.featured .t-desc{color:rgba(255,255,255,.5)}
+.t-card.featured .t-list li{color:rgba(255,255,255,.5);border-bottom-color:rgba(255,255,255,.06)}
+.t-card.featured .t-list li::before{background:var(--pink-light)}
+.t-badge{display:inline-block;background:linear-gradient(135deg,var(--pink),var(--pink-light));color:white;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:50px;margin-bottom:20px;font-weight:600}
+.t-type{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--pink);margin-bottom:10px;font-weight:600}
+.t-name{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:600;color:var(--dark);margin-bottom:10px;line-height:1.3}
+.t-desc{font-size:.78rem;color:var(--muted);line-height:1.75;margin-bottom:24px}
+.t-list{list-style:none;margin-bottom:32px}
+.t-list li{font-size:.78rem;color:var(--charcoal);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start}
+.t-list li::before{content:'';width:6px;height:6px;background:var(--pink);border-radius:50%;flex-shrink:0;margin-top:5px}
+.t-btn-fill{display:block;text-align:center;padding:14px;border-radius:50px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;transition:all .3s;background:linear-gradient(135deg,var(--pink),var(--pink-light));color:white;font-weight:600;box-shadow:0 6px 20px rgba(233,30,140,.3)}
+.t-btn-fill:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(233,30,140,.45)}
+.t-btn-out{display:block;text-align:center;padding:14px;border-radius:50px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-family:'Plus Jakarta Sans',sans-serif;transition:all .3s;border:2px solid var(--line-pink);color:var(--pink);font-weight:600}
+.t-btn-out:hover{background:var(--pink-pale);border-color:var(--pink)}
+
+/* TESTIMONIALS */
+.testi-section{background:white}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:56px}
+.testi-card{background:var(--light);border-radius:20px;padding:36px;border:1px solid var(--line);transition:transform .3s,box-shadow .3s}
+.testi-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(233,30,140,.08)}
+.testi-stars{color:var(--pink);font-size:.9rem;letter-spacing:2px;margin-bottom:16px}
+.testi-text{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:var(--charcoal);line-height:1.75;margin-bottom:20px}
+.testi-author{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:500}
+.testi-rating{display:inline-flex;align-items:center;gap:6px;background:var(--pink-pale);color:var(--pink);padding:4px 12px;border-radius:50px;font-size:.68rem;font-weight:600;margin-top:8px}
+
+/* CONTACT */
+.contact-section{background:var(--dark)}
+.contact-section .s-title{color:white}
+.contact-section .s-sub{color:rgba(255,255,255,.45)}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-top:60px;align-items:start}
+.c-items{display:flex;flex-direction:column;gap:20px}
+.c-item{display:flex;gap:16px;align-items:flex-start;padding:20px;background:rgba(255,255,255,.05);border-radius:14px;border:1px solid rgba(255,255,255,.08);transition:border-color .3s}
+.c-item:hover{border-color:rgba(233,30,140,.3)}
+.c-item-icon{width:40px;height:40px;background:rgba(233,30,140,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-item-icon svg{width:18px;height:18px;stroke:var(--pink-light);fill:none;stroke-width:2}
+.c-item-label{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--pink-light);margin-bottom:4px;font-weight:600}
+.c-item-val{font-size:.85rem;color:rgba(255,255,255,.65);font-weight:300;line-height:1.6}
+.social-row{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap}
+.s-link{border:1px solid rgba(255,255,255,.12);padding:9px 18px;border-radius:50px;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;transition:all .3s}
+.s-link:hover{border-color:var(--pink);color:var(--pink)}
+.contact-cta-box{background:rgba(233,30,140,.08);padding:40px;border-radius:20px;border:1px solid rgba(233,30,140,.2)}
+.contact-cta-box h3{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:white;margin-bottom:8px;line-height:1.3}
+.contact-cta-box h3 em{color:var(--pink-light);font-style:italic}
+.contact-cta-box p{font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:28px;font-weight:300}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:white;padding:16px;border-radius:50px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-weight:600;transition:all .3s;margin-bottom:12px;box-shadow:0 6px 20px rgba(37,211,102,.3)}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,211,102,.45)}
+.book-link{display:block;text-align:center;border:1px solid rgba(233,30,140,.3);color:var(--pink-light);padding:16px;border-radius:50px;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.book-link:hover{background:rgba(233,30,140,.1);border-color:var(--pink)}
+.map-wrap{border-radius:16px;overflow:hidden;margin-top:20px;border:1px solid rgba(255,255,255,.08)}
+.map-wrap iframe{display:block;width:100%;height:260px;filter:grayscale(20%) invert(5%)}
+
+/* FOOTER */
+footer{background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.06);padding:32px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.f-logo{font-family:'Playfair Display',serif;font-size:1rem;color:var(--pink-light);font-weight:600}
+.f-copy{font-size:.65rem;color:rgba(255,255,255,.25);letter-spacing:1px}
+.f-rating{display:flex;align-items:center;gap:6px;font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:1px}
+.f-stars{color:var(--pink-light)}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:500;background:#25D366;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+
+/* ANIMATIONS */
+.ha-1{opacity:0;transform:translateY(20px);animation:hFade .7s .2s forwards}
+.ha-2{opacity:0;transform:translateY(24px);animation:hFade .8s .4s forwards}
+.ha-3{opacity:0;transform:translateY(20px);animation:hFade .7s .6s forwards}
+.ha-4{opacity:0;transform:translateY(16px);animation:hFade .7s .8s forwards}
+.ha-5{opacity:0;animation:hFade .7s 1s forwards}
+.hero-img-float{opacity:0;transform:translateX(24px);animation:hFade .9s .5s forwards}
+@keyframes hFade{to{opacity:1;transform:translate(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-l{opacity:0;transform:translateX(-24px);transition:opacity .7s,transform .7s}
+.reveal-l.visible{opacity:1;transform:translateX(0)}
+.reveal-r{opacity:0;transform:translateX(24px);transition:opacity .7s,transform .7s}
+.reveal-r.visible{opacity:1;transform:translateX(0)}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+  .nav-links{display:none}.hamburger{display:flex}
+  .about-inner,.booking-inner,.hours-inner,.contact-inner{grid-template-columns:1fr;gap:48px}
+  .about-imgs{height:320px}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .g-item:nth-child(1),.g-item:nth-child(4){grid-column:span 1}
+  .stats-strip{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media(max-width:600px){
+  .hero-content{padding:100px 5% 60px}
+  .hero h1{font-size:2.6rem}
+  .hero-stats{gap:24px}
+  .f-row{grid-template-columns:1fr}
+  section{padding:70px 5%}
+  .booking-form-wrap{padding:28px 20px}
+  .services-grid{grid-template-columns:1fr}
+  .stats-strip{grid-template-columns:1fr 1fr}
+  footer{flex-direction:column;text-align:center}
+  .about-imgs{height:260px}
+}
+
+/* ── ANIMATIONS ── */
+
+/* Service card hover line sweep */
+.svc-card{position:relative}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--pink),var(--pink-light));border-radius:0 0 20px 20px;transition:width .4s ease}
+.svc-card:hover::after{width:100%}
+
+/* Stats strip count pulse */
+.strip-num{transition:transform .3s}
+.strip-stat:hover .strip-num{transform:scale(1.08)}
+
+/* Info card hover slide */
+.info-card{transition:transform .25s,border-color .25s,box-shadow .25s}
+.info-card:hover{transform:translateX(6px);border-color:var(--line-pink);box-shadow:0 4px 20px rgba(233,30,140,.08)}
+
+/* Contact item hover */
+.c-item{transition:transform .25s,border-color .25s}
+.c-item:hover{transform:translateX(6px)}
+
+/* Training card lift */
+.t-card{transition:transform .3s,box-shadow .3s,border-color .3s}
+.t-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(233,30,140,.15)}
+
+/* Testimonial card lift */
+.testi-card{transition:transform .3s,box-shadow .3s}
+.testi-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(233,30,140,.1)}
+
+/* Nav book button pulse */
+@keyframes navPulse{0%,100%{box-shadow:0 4px 16px rgba(233,30,140,.3)}50%{box-shadow:0 4px 28px rgba(233,30,140,.6)}}
+.nav-book{animation:navPulse 2.5s ease-in-out infinite}
+
+/* Hero badge shimmer */
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.hero-badge{background-size:200% auto;animation:shimmer 4s linear infinite}
+
+/* About float badge bounce */
+@keyframes floatBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+.about-float-badge{animation:floatBounce 3s ease-in-out infinite}
+
+/* Gallery plus icon spin on hover */
+.g-plus{transition:transform .3s}
+.g-item:hover .g-plus{transform:rotate(90deg)}
+
+/* Dot indicator bounce on active */
+.dot.active{animation:dotPop .3s ease forwards}
+@keyframes dotPop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1.3)}}
+
+/* Submit button shine */
+.f-submit{overflow:hidden;position:relative}
+.f-submit::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+.f-submit:hover::before{left:150%}
+
+/* WA float pulse */
+@keyframes waPulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.4)}50%{box-shadow:0 4px 32px rgba(37,211,102,.7)}}
+.wa-float{animation:waPulse 2s ease-in-out infinite}
+
+/* Scroll reveal stagger for service cards */
+.svc-card:nth-child(2){transition-delay:.1s}
+.svc-card:nth-child(3){transition-delay:.2s}
+.svc-card:nth-child(4){transition-delay:.1s}
+.svc-card:nth-child(5){transition-delay:.2s}
+.svc-card:nth-child(6){transition-delay:.3s}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-icon">EV</div>
+    <div class="nav-logo-text">Excelvic <span>Hairplace</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="nav-book">Book Now</a></li>
+  </ul>
+  <button class="hamburger" id="ham" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#services" onclick="toggleMenu()">Services</a>
+  <a href="#gallery" onclick="toggleMenu()">Gallery</a>
+  <a href="#training" onclick="toggleMenu()">Training</a>
+  <a href="#booking" onclick="toggleMenu()">Book Appointment</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO SLIDESHOW -->
+<section class="hero" id="home">
+  <div class="slides">
+    <div class="slide slide-1 active"></div>
+    <div class="slide slide-2"></div>
+    <div class="slide slide-3"></div>
+    <div class="slide slide-4"></div>
+  </div>
+  <div class="slide-dots">
+    <span class="dot active" onclick="goToSlide(0)"></span>
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+    <span class="dot" onclick="goToSlide(3)"></span>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge ha-1">
+      <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Lagos's Premium Hair Salon
+    </div>
+    <h1 class="ha-2">Premium Salon<br>Experience <em>For You</em></h1>
+    <p class="ha-3">Expert wig installation, wigging, short hair styling, revamping, and professional training. Where every visit feels like a luxury retreat — in the heart of Ogba, Lagos.</p>
+    <div class="hero-btns ha-4">
+      <a href="#booking" class="btn-pink">Book Appointment</a>
+      <a href="#services" class="btn-white-outline">Explore Services</a>
+    </div>
+    <div class="hero-stats ha-5">
+      <div><div class="h-stat-num">4.9★</div><div class="h-stat-label">Rating</div></div>
+      <div><div class="h-stat-num">500+</div><div class="h-stat-label">Happy Clients</div></div>
+      <div><div class="h-stat-num">Ogba</div><div class="h-stat-label">Lagos</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="strip-stat reveal"><div class="strip-num">4.9/5</div><div class="strip-label">Customer Rating</div></div>
+  <div class="strip-stat reveal"><div class="strip-num">500+</div><div class="strip-label">Happy Clients</div></div>
+  <div class="strip-stat reveal"><div class="strip-num">Mon–Sat</div><div class="strip-label">Open Daily</div></div>
+  <div class="strip-stat reveal"><div class="strip-num">Free</div><div class="strip-label">Parking</div></div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="about-inner">
+    <div class="about-imgs reveal-l">
+      <div class="about-img-main">
+        <img src="https://i.pinimg.com/736x/9f/8c/d3/9f8cd3dcdc946d3fbf4155dd648692a4.jpg" alt="Salon" style="object-position:center 20%">
+      </div>
+      <div class="about-img-sub">
+        <img src="https://i.pinimg.com/736x/be/c9/61/bec96148f1d39e0f0b5755d21cbf4fbc.jpg" alt="Hair work" style="object-position:center 20%">
+      </div>
+      <div class="about-float-badge">
+        <div class="about-float-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div>
+          <div class="about-float-num">4.9 / 5</div>
+          <div class="about-float-text">Verified Customer Rating</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-r">
+      <div class="s-badge">About Us</div>
+      <h2 class="s-title">Crafting Beauty<br><em>Since Day One</em></h2>
+      <div class="s-line"></div>
+      <p>Excelvic Hairplace is Lagos's go-to destination for premium wig installation, expert short hair styling, and professional hair training. Located at 51 Ogunnusi Road, Aguda, Ogba — we've built a reputation for clean, classy, and consistent results.</p>
+      <p>Our team of skilled stylists treats every client like royalty. From the moment you walk in, you'll experience a serene, welcoming environment where your hair is in the best hands.</p>
+      <div class="about-perks">
+        <div class="perk"><div class="perk-dot"></div>Expert Stylists</div>
+        <div class="perk"><div class="perk-dot"></div>Classy Environment</div>
+        <div class="perk"><div class="perk-dot"></div>Free Parking</div>
+        <div class="perk"><div class="perk-dot"></div>Card Payments</div>
+        <div class="perk"><div class="perk-dot"></div>Walk-ins Welcome</div>
+        <div class="perk"><div class="perk-dot"></div>Sunday by Appt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-section">
+  <div class="services-header">
+    <div class="reveal">
+      <div class="s-badge">What We Offer</div>
+      <h2 class="s-title">Our Premium<br><em>Services</em></h2>
+    </div>
+    <div class="reveal">
+      <p class="s-sub">Every service is delivered with expert precision and a focus on making you look and feel your absolute best.</p>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card reveal">
+      <div class="svc-card-img">
+        <img src="https://i.pinimg.com/736x/be/c9/61/bec96148f1d39e0f0b5755d21cbf4fbc.jpg" alt="Wig Installation" loading="lazy" style="object-position:center 20%">
+        <div class="svc-card-img-overlay"></div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <div class="svc-name">Wig Installation</div>
+        <p class="svc-desc">Professional wig installation and wigging services. Natural finish, seamless blend, and long-lasting results every time.</p>
+        <a href="#booking" class="svc-link">Book Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-card-img">
+        <img src="https://i.pinimg.com/736x/c8/7e/88/c87e88443f9e9c7a69234fbf141f8447.jpg" alt="Short Hair Styling" loading="lazy" style="object-position:center 50%">
+        <div class="svc-card-img-overlay"></div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+        </div>
+        <div class="svc-name">Short Hair Styling</div>
+        <p class="svc-desc">Specialization in short hair — precision cuts, sleek styling, and expert finishing that frames your face perfectly.</p>
+        <a href="#booking" class="svc-link">Book Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-card-img">
+        <img src="https://i.pinimg.com/736x/9f/8c/d3/9f8cd3dcdc946d3fbf4155dd648692a4.jpg" alt="Hair Revamping" loading="lazy" style="object-position:center 20%">
+        <div class="svc-card-img-overlay"></div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        </div>
+        <div class="svc-name">Hair Revamping</div>
+        <p class="svc-desc">Restoration and revamping of wigs and hair extensions. We bring tired pieces back to life with expert care and treatment.</p>
+        <a href="#booking" class="svc-link">Book Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-card-img">
+        <img src="https://i.pinimg.com/736x/4e/24/99/4e2499d8818538bc993777502a72f17b.jpg" alt="Wigging" loading="lazy">
+        <div class="svc-card-img-overlay"></div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+        <div class="svc-name">Custom Wigging</div>
+        <p class="svc-desc">Custom wig construction and styling tailored to your preference. Machine-sewn or hand-ventilated — built for your unique look.</p>
+        <a href="#booking" class="svc-link">Book Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-card-img">
+        <img src="https://i.pinimg.com/736x/f6/ab/29/f6ab29000b419896c8eb1e413d43588d.jpg" alt="Hair Products" loading="lazy" style="object-position:center 20%">
+        <div class="svc-card-img-overlay"></div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        </div>
+        <div class="svc-name">Short Hair Wigs</div>
+        <p class="svc-desc">Premium short hair wigs available for pre-order and pick-up. High-quality units starting from ₦75,000 — natural, stylish, ready to wear.</p>
+        <a href="https://wa.me/2348159562246?text=Hi!%20I%27d%20like%20to%20pre-order%20a%20short%20hair%20wig.%20Please%20send%20me%20available%20options." class="svc-link" target="_blank">Order Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="svc-card reveal">
+      <div class="svc-card-img">
+        <img src="https://i.pinimg.com/736x/35/10/57/35105799ef4c4d7f0b8d7aca2c61e011.jpg" alt="Hair Training" loading="lazy">
+        <div class="svc-card-img-overlay"></div>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div class="svc-name">Professional Training</div>
+        <p class="svc-desc">Hairstyling and hair ventilation training programs for aspiring stylists. Learn from the best — get certified, get clients.</p>
+        <a href="#training" class="svc-link">Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS -->
+<div class="hours-section">
+  <div class="hours-inner">
+    <div class="reveal-l">
+      <div class="s-badge" style="color:var(--pink-light)">Opening Hours</div>
+      <h2 class="hours-text" style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:white;margin-bottom:16px;line-height:1.2">We're Open <em style="color:var(--pink-light);font-style:italic">6 Days</em> a Week</h2>
+      <p style="font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.9;font-weight:300;margin-bottom:32px">Walk-ins welcome Monday to Saturday. Sundays are strictly by appointment — book ahead to secure your spot.</p>
+      <div class="hours-cta">
+        <a href="#booking" class="btn-pink">Book Appointment</a>
+      </div>
+    </div>
+    <div class="reveal-r">
+      <table class="hours-table">
+        <tr><td>Monday – Friday</td><td>8:30 AM – 8:00 PM</td></tr>
+        <tr><td>Saturday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr><td>Sunday</td><td>By Appointment Only</td></tr>
+      </table>
+      <div style="margin-top:28px;background:rgba(233,30,140,.1);padding:20px;border-radius:14px;border:1px solid rgba(233,30,140,.2)">
+        <div style="font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--pink-light);margin-bottom:6px;font-weight:600">Location</div>
+        <div style="font-size:.88rem;color:rgba(255,255,255,.65);font-weight:300;line-height:1.6">51 Ogunnusi Road, Aguda, Ogba<br>Ikeja 100218, Lagos (Opp. BOX 18)<br>Free parking available</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section id="gallery" class="gallery-section">
+  <div class="reveal" style="text-align:center">
+    <div class="s-badge" style="justify-content:center">Our Work</div>
+    <h2 class="s-title" style="text-align:center">A Glimpse Into<br><em>Our World</em></h2>
+    <div class="s-line" style="margin:18px auto"></div>
+    <p class="s-sub" style="margin:0 auto;text-align:center">Every photo tells a story of transformation, precision, and beauty crafted with love.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="g-item reveal">
+      <img src="https://i.pinimg.com/736x/57/84/89/578489066d82e09069c85596e29cbfed.jpg" alt="Work 1" loading="lazy" style="object-position:center 20%">
+      <div class="g-overlay"><div class="g-plus">+</div></div>
+    </div>
+    <div class="g-item reveal">
+      <img src="https://i.pinimg.com/736x/62/1e/f9/621ef9714535893301048c2c3d95f001.jpg" alt="Work 2" loading="lazy" style="object-position:top">
+      <div class="g-overlay"><div class="g-plus">+</div></div>
+    </div>
+    <div class="g-item reveal">
+      <img src="https://i.pinimg.com/736x/f6/ab/29/f6ab29000b419896c8eb1e413d43588d.jpg" alt="Work 3" loading="lazy" style="object-position:center 20%">
+      <div class="g-overlay"><div class="g-plus">+</div></div>
+    </div>
+    <div class="g-item reveal">
+      <img src="https://i.pinimg.com/736x/12/29/1b/12291b8bc30f657a54b280cf7ee5a0c5.jpg" alt="Work 4" loading="lazy">
+      <div class="g-overlay"><div class="g-plus">+</div></div>
+    </div>
+    <div class="g-item reveal">
+      <img src="https://i.pinimg.com/736x/35/10/57/35105799ef4c4d7f0b8d7aca2c61e011.jpg" alt="Work 5" loading="lazy">
+      <div class="g-overlay"><div class="g-plus">+</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking" class="booking-section">
+  <div class="booking-inner">
+    <div class="booking-info reveal-l">
+      <div class="s-badge">Book a Session</div>
+      <h3 class="booking-info" style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:16px">Book Your <em style="color:var(--pink);font-style:italic">Appointment</em></h3>
+      <div class="s-line"></div>
+      <p style="font-size:.9rem;color:var(--muted);line-height:1.9;font-weight:300;margin-bottom:32px">Fill in the form and your booking request goes straight to our WhatsApp. We'll confirm your slot and get you in.</p>
+      <div class="info-cards">
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="info-card-label">Address</div><div class="info-card-val">51 Ogunnusi Road, Aguda, Ogba<br>Ikeja, Lagos (Opp. BOX 18)</div></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.06 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div><div class="info-card-label">Phone / WhatsApp</div><div class="info-card-val">+234 815 956 2246<br>+234 904 624 3844</div></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><div class="info-card-label">Hours</div><div class="info-card-val">Mon–Fri: 8:30AM – 8:00PM<br>Sat: 9:00AM – 8:00PM · Sun: By Appt</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="booking-form-wrap reveal-r">
+      <div class="form-title">Request Appointment</div>
+      <div class="f-group">
+        <label class="f-label">Full Name</label>
+        <input type="text" id="f-name" class="f-input" placeholder="Your full name">
+      </div>
+      <div class="f-row">
+        <div class="f-group">
+          <label class="f-label">Phone Number</label>
+          <input type="tel" id="f-phone" class="f-input" placeholder="+234...">
+        </div>
+        <div class="f-group">
+          <label class="f-label">Preferred Date</label>
+          <input type="date" id="f-date" class="f-input">
+        </div>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Service</label>
+        <select id="f-service" class="f-select">
+          <option value="">Select a service</option>
+          <option>Wig Installation</option>
+          <option>Short Hair Styling</option>
+          <option>Hair Revamping</option>
+          <option>Custom Wigging</option>
+          <option>Short Hair Wig Pre-order</option>
+          <option>Professional Training</option>
+          <option>Other — I'll explain below</option>
+        </select>
+      </div>
+      <div class="f-group">
+        <label class="f-label">Extra Details</label>
+        <textarea id="f-details" class="f-textarea" placeholder="Tell us what you need and any special requests..."></textarea>
+      </div>
+      <button class="f-submit" onclick="sendBooking()">Send Booking Request →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section id="training" class="training-section">
+  <div class="reveal" style="text-align:center">
+    <div class="s-badge" style="justify-content:center">Education</div>
+    <h2 class="s-title" style="text-align:center">Professional <em>Training</em><br>Programs</h2>
+    <div class="s-line" style="margin:18px auto"></div>
+    <p class="s-sub" style="margin:0 auto;text-align:center">Learn hairstyling and hair ventilation from experienced professionals. Get certified, build your skills, start earning.</p>
+  </div>
+  <div class="training-grid">
+    <div class="t-card featured reveal">
+      <div class="t-badge">Most Popular</div>
+      <div class="t-type">Professional Course</div>
+      <div class="t-name">Hairstyling Mastery Program</div>
+      <p class="t-desc" style="color:rgba(255,255,255,.5)">A comprehensive training program covering wig installation, wigging, short hair styling, revamping, and salon business fundamentals.</p>
+      <ul class="t-list">
+        <li>Wig installation techniques</li>
+        <li>Short hair cutting & styling</li>
+        <li>Wigging (machine & hand-sewn)</li>
+        <li>Hair revamping & maintenance</li>
+        <li>Hands-on practical sessions</li>
+        <li>Certificate on completion</li>
+      </ul>
+      <a href="https://wa.me/2348159562246?text=Hi!%20I%27d%20like%20to%20enquire%20about%20the%20Hairstyling%20Mastery%20Program.%20Please%20send%20details%20and%20pricing." class="t-btn-fill" target="_blank">Enquire About Training</a>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-type">Specialist Course</div>
+      <div class="t-name">Hair Ventilation Training</div>
+      <p class="t-desc">Learn the art of hair ventilation — a premium skill that lets you create natural-looking wigs from scratch. High demand, high income.</p>
+      <ul class="t-list">
+        <li>Hair ventilation fundamentals</li>
+        <li>Tools and materials guide</li>
+        <li>Practical hands-on sessions</li>
+        <li>Finishing and styling</li>
+        <li>Certificate on completion</li>
+        <li>Open to all skill levels</li>
+      </ul>
+      <a href="https://wa.me/2348159562246?text=Hi!%20I%27d%20like%20to%20enquire%20about%20the%20Hair%20Ventilation%20Training.%20Please%20send%20details%20and%20pricing." class="t-btn-out" target="_blank">Check Availability</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="reveal" style="text-align:center">
+    <div class="s-badge" style="justify-content:center">Client Love</div>
+    <h2 class="s-title" style="text-align:center">What Our Clients <em>Say</em></h2>
+    <div class="s-line" style="margin:18px auto"></div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"The staff are so friendly and the work is exceptional. My wig installation looked completely natural — I've never felt more confident."</div>
+      <div class="testi-author">— Adaeze N., Lagos</div>
+      <div class="testi-rating">★ 5.0 Verified Review</div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"Classy environment, expert hands. I came in for a revamp and left feeling like a new woman. This is my go-to salon in Lagos."</div>
+      <div class="testi-author">— Chisom O., Ikeja</div>
+      <div class="testi-rating">★ 5.0 Verified Review</div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-text">"The short hair styling here is next level. They really understand my face shape and always deliver exactly what I envision."</div>
+      <div class="testi-author">— Temi A., Ogba</div>
+      <div class="testi-rating">★ 5.0 Verified Review</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="s-badge reveal" style="color:var(--pink-light)">Get in Touch</div>
+  <h2 class="s-title reveal" style="color:white">Visit Us or <em style="color:var(--pink-light)">Reach Out</em></h2>
+  <div class="s-line reveal"></div>
+  <p class="s-sub reveal" style="color:rgba(255,255,255,.42)">Walk in Monday to Saturday or book ahead for Sunday. We're always ready to make you look your best.</p>
+  <div class="contact-inner">
+    <div class="c-items reveal-l">
+      <div class="c-item">
+        <div class="c-item-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="c-item-label">Address</div><div class="c-item-val">51 Ogunnusi Road, Aguda, Ogba<br>Ikeja 100218, Lagos · Opp. BOX 18</div></div>
+      </div>
+      <div class="c-item">
+        <div class="c-item-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.06 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="c-item-label">Phone / WhatsApp</div><div class="c-item-val">+234 815 956 2246<br>+234 904 624 3844</div></div>
+      </div>
+      <div class="c-item">
+        <div class="c-item-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div><div class="c-item-label">Social Media</div><div class="c-item-val">@excelvichairplace</div></div>
+      </div>
+      <div>
+        <div class="c-item-label" style="margin-bottom:12px">Follow Us</div>
+        <div class="social-row">
+          <a href="https://www.instagram.com/excelvichairplace" class="s-link" target="_blank">Instagram</a>
+          <a href="https://www.tiktok.com/@excelvichairplace" class="s-link" target="_blank">TikTok</a>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-r">
+      <div class="contact-cta-box">
+        <h3>Ready to look <em>amazing?</em></h3>
+        <p>Book your appointment now or chat with us on WhatsApp — we respond fast.</p>
+        <a href="https://wa.me/2348159562246?text=Hi!%20I%27d%20like%20to%20book%20an%20appointment%20at%20Excelvic%20Hairplace.%20Please%20let%20me%20know%20your%20availability." class="wa-btn" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat on WhatsApp
+        </a>
+        <a href="#booking" class="book-link">Book Appointment Online</a>
+      </div>
+      <div class="map-wrap">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.5!2d3.3397!3d6.6142!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b93a7b3b3b3b3%3A0x1234!2s51%20Ogunnusi%20Rd%2C%20Ogba%2C%20Lagos!5e0!3m2!1sen!2sng!4v1700000000000" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;" title="Excelvic Hairplace Location"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Excelvic Hairplace</div>
+  <div class="f-copy">© 2025 Excelvic Hairplace · Ogba, Lagos, Nigeria</div>
+  <div class="f-rating"><span class="f-stars">★★★★★</span> 4.9/5 Rating</div>
+</footer>
+
+<!-- FLOATING WA -->
+<a href="https://wa.me/2348159562246?text=Hi!%20I%20found%20your%20website%20and%20I%27d%20love%20to%20book%20an%20appointment!" class="wa-float" target="_blank" title="Chat on WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// Slideshow
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+function goToSlide(n){
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+setInterval(()=>goToSlide((current+1)%slides.length), 5000);
+
+// Progress bar
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('prog').style.width=p+'%';
+},{passive:true});
+
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+},{passive:true});
+
+// Mobile menu
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.getElementById('ham').classList.toggle('open');
+}
+
+// Scroll reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'),i*80);
+      obs.unobserve(e.target);
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>obs.observe(el));
+
+// Booking → WhatsApp
+function sendBooking(){
+  const name=document.getElementById('f-name').value.trim();
+  const phone=document.getElementById('f-phone').value.trim();
+  const date=document.getElementById('f-date').value;
+  const service=document.getElementById('f-service').value;
+  const details=document.getElementById('f-details').value.trim();
+  if(!name||!phone||!service){alert('Please fill in your name, phone number, and select a service.');return;}
+  const msg=`Hi! I'd like to book an appointment at Excelvic Hairplace ✨\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service:* ${service}\n*Preferred Date:* ${date||'Flexible'}\n*Details:* ${details||'No additional notes'}\n\nFound you through your website!`;
+  window.open(`https://wa.me/2348159562246?text=${encodeURIComponent(msg)}`,'_blank');
+}
+</script>
+</body>
+</html>
